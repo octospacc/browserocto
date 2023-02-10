@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center"
+	android:orientation="vertical"
+	android:id="@+id/LayMain">
+
+	<EditText
+		android:layout_width="match_parent"
+		android:ems="10"
+		android:layout_height="wrap_content"
+		android:hint="URL..."
+		android:text="https://"
+		android:padding="10dp"
+		android:id="@+id/EditUrl"/>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="10dp">
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Open Now"
+			android:padding="10dp"
+			android:id="@+id/BtnOpen"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Shortcut"
+			android:padding="10dp"
+			android:id="@+id/BtnShortcut"/>
+
+	</LinearLayout>
+
+	<Switch
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="[Open Now] Force load from local cache"
+		android:padding="10dp"
+		android:checked="true"
+		android:id="@+id/SwitchCache"/>
+
+</LinearLayout>
