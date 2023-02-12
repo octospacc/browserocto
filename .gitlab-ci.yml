@@ -1,0 +1,29 @@
+image: openjdk:18-jdk-bullseye
+
+before_script:
+  - apt --quiet update --yes
+  - apt --quiet install --yes wget tar unzip perl p7zip-full
+
+BleedingEdge:
+  interruptible: true
+  stage: build
+  script: |
+    mkdir -p ./AndroidSdk
+    cd ./AndroidSdk
+    wget -O BuildTools.zip https://dl.google.com/android/repository/build-tools_r30.0.3-linux.zip
+    wget -O Platform.zip https://dl.google.com/android/repository/platform-30_r03.zip
+    yes A | unzip BuildTools.zip || true
+    yes A | unzip Platform.zip || true
+    cd ..
+    
+    mv ./app/src/main ./main
+    cd ./main
+    mv ./java ./src
+    mv ../tools/tiny-android-template/* ./
+    echo "${SecEncodedKeystore}" | base64 --decode > ./Keystore.jks
+    
+    perl ./link.pl
+    bash ./make.sh
+  artifacts:
+    paths:
+      - main/app.apk

@@ -10,4 +10,9 @@ Go to [-/releases](https://gitlab.com/octtspacc/browserocto) to get the latest b
 
 ## Building
 
-I fail to understand how to build apps supporting old minimum API targets with classic methods, to build from source then I suggest using this application: [AIDE- IDE for Android Java C++](https://play.google.com/store/apps/details?id=com.aide.ui) (it's what I'm using for development).
+Building this project has been tested with the following methods:
+
+- Using the amazing scripts provided by the tiny-android-template project (thanks to [jbendtsen](https://github.com/jbendtsen/tiny-android-template)!):
+	- Read [.gitlab-ci.yml](./.gitlab-ci.yml) to discover how
+
+- Using the [AIDE - IDE for Android](https://play.google.com/store/apps/details?id=com.aide.ui) app
