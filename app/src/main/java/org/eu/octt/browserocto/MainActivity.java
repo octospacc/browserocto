@@ -48,10 +48,9 @@ public class MainActivity extends Activity {
 	};
 	
 	private Intent MakeIntBrowse(String Url, Boolean Cache) {
-		Intent IntBrowse = new Intent(getApplicationContext(), WebWindowActivity.class);
+		Intent IntBrowse = new Intent(getApplicationContext(), WebWindowActivity.class)
 		// To get unlimited activities in general but only 1 per site, set only FLAG_ACTIVITY_NEW_DOCUMENT and put site URL in intent.setData
 		// NOTE: This only gives a good UX on Android >= 7, for the lower versions we need to implement things differently
-		IntBrowse
 			.setAction(Intent.ACTION_OPEN_DOCUMENT)
 			.setData(Uri.parse(Url))
 			.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT /*| Intent.FLAG_ACTIVITY_MULTIPLE_TASK*/)
@@ -84,48 +83,59 @@ public class MainActivity extends Activity {
 	};
 	
 	private final void CreateShortcutFallback(String Url, String Name) {
-		Intent IntExt = new Intent();
-		IntExt.putExtra(Intent.EXTRA_SHORTCUT_INTENT, MakeIntBrowse(Url, true));
-		IntExt.putExtra(Intent.EXTRA_SHORTCUT_NAME, Name);
-		IntExt.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher));
-
-		IntExt.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-		//IntExt.putExtra("duplicate", false);  //may it's already there so don't duplicate
+		Intent IntExt = new Intent()
+			.putExtra(Intent.EXTRA_SHORTCUT_INTENT, MakeIntBrowse(Url, true))
+			.putExtra(Intent.EXTRA_SHORTCUT_NAME, Name)
+			.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher))
+			.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+			//.putExtra("duplicate", false);  //may it's already there so don't duplicate
 		getApplicationContext().sendBroadcast(IntExt);
 	};
-
 	
 	private void ShowShortcutDial(String Url) {
 		final AlertDialog.Builder Dial = new AlertDialog.Builder(this);
 		final String Url_ = Url;
 		
-		final View v = getLayoutInflater().inflate(R.layout.dialmakeshortcut, null);
-		Dial.setView(v);
+		final View DialView = getLayoutInflater().inflate(R.layout.dialmakeshortcut, null);
+		Dial.setView(DialView);
 		
-		final EditText EditName = v.findViewById(R.id.EditName);
-		//final EditText EditIcon = v.findViewById(R.id.EditIcon);
+		final EditText EditName = DialView.findViewById(R.id.EditName);
+		//final EditText EditIcon = DialView.findViewById(R.id.EditIcon);
 		
 		Dial.setTitle("Create Home Shortcut");
-		//Dial.setCancelable(false);
+		Dial.setCancelable(false);
+
+		// https://stackoverflow.com/a/15619098
+		//Dial.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		//	@Override
+		//	public void onClick(DialogInterface Dial, int w) {
+		//		// Do nothing here because we override this button later to change the behavior.
+		//		// However, we still need this because of quirks on older versions of Android.
+		//	};
+		//});
 		
+		Dial.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface Dial, int w) {
+				Dial.dismiss();
+			};
+		});
+
+		//Dial.show();
+
+		// TODO: FIX it seems we just broke this with our crap idea of hacking the dialog cancellation
 		Dial.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface d, int w) {
+			public void onClick(DialogInterface Dial, int w) {
 				final String Name = EditName.getText().toString();
 				//String IconUrl = EditIcon.getText().toString();
 				if (!Name.equals("")) {
 					CreateShortcut(Url_, Name);
+					Dial.dismiss();
 				} else
 				if (Name.equals("")) {
 					_Util.ToastMsg("Name can't be empty!", getApplicationContext());
 				};
-			};
-		});
-		
-		Dial.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface d, int w) {
-				
 			};
 		});
 

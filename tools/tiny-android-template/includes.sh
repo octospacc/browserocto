@@ -7,7 +7,7 @@ API_LEVEL_MIN="1"
 ANDROID_VERSION="11"
 NDK_VERSION="r23-beta4"
 TARGET_ARCHES=( "arm64-v8a" )
-SDK_DIR="../AndroidSdk"
+SDK_DIR="../../AndroidSdk"
 KOTLIN_LIB_DIR="/usr/share/kotlin/lib"
 
 REPO="https://dl.google.com/dl/android/maven2"

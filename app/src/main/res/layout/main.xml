@@ -38,6 +38,7 @@
 
 	</LinearLayout>
 
+	<!-- TODO: Make this be CheckBox on Android < ICS because Switch doesn't exist -->
 	<Switch
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
