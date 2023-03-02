@@ -7,5 +7,7 @@ mv ./java ./src
 cp -r ../tools/tiny-android-template/* ./
 echo "${SecEncodedKeystore}" | base64 --decode > ./Keystore.jks
 
+sh ../tools/BuildAssets.sh
+
 perl ./link.pl
 bash ./make.sh

@@ -2,13 +2,13 @@ image: openjdk:18-jdk-bullseye
 
 before_script:
   - apt --quiet update --yes
-  - apt --quiet install --yes wget tar unzip perl p7zip-full
+  - apt --quiet install --yes wget tar unzip perl p7zip-full imagemagick pngquant
 
 BleedingEdge:
   interruptible: true
   stage: build
   script: |
-  	StartDir="$(pwd)"
+    StartDir="$(pwd)"
     mkdir -p ../AndroidSdk
     cd ../AndroidSdk
     wget -O BuildTools.zip https://dl.google.com/android/repository/build-tools_r30.0.3-linux.zip
@@ -16,7 +16,6 @@ BleedingEdge:
     yes A | unzip BuildTools.zip || true
     yes A | unzip Platform.zip || true
     cd "$StartDir"
-    
     sh ./tools/Build.sh
   artifacts:
     paths:
