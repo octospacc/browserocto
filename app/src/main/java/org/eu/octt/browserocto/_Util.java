@@ -38,21 +38,43 @@ public class _Util extends Activity {
 	};
 
 	// https://stackoverflow.com/a/5713929
-	public static String StreamToString(InputStream is) throws IOException {
-		if (is != null) {
+	public static String StreamToString(InputStream In) throws IOException {
+		if (In != null) {
 			Writer writer = new StringWriter();
 			char[] buffer = new char[1024];
 			try {
-				Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+				Reader reader = new BufferedReader(new InputStreamReader(In, "UTF-8"));
 				int n;
 				while ((n = reader.read(buffer)) != -1) {
 					writer.write(buffer, 0, n);
 				};
 			} finally {
-				is.close();
+				In.close();
 			};
 			return writer.toString();
 		};
 		return "";
+	};
+	
+	// https://stackoverflow.com/a/10857407
+	public static void WriteStreamToFile(InputStream In, String Path, String Name) throws IOException {
+		try {
+			File dir = new File(Path);
+			dir.mkdirs();
+			File file = new File(Path, Name);
+			file.createNewFile();
+			try (OutputStream output = new FileOutputStream(file)) {
+				byte[] buffer = new byte[4 * 1024];
+				int read;
+
+				while ((read = In.read(buffer)) != -1) {
+					output.write(buffer, 0, read);
+				}
+
+				output.flush();
+				}
+		} finally {
+			In.close();
+		}
 	};
 };

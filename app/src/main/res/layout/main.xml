@@ -9,7 +9,8 @@
 
 	<EditText
 		android:layout_width="match_parent"
-		android:ems="10"
+		android:inputType="text"
+		android:maxLines="1"
 		android:layout_height="wrap_content"
 		android:hint="URL..."
 		android:text="https://"
@@ -38,8 +39,7 @@
 
 	</LinearLayout>
 
-	<!-- TODO: Make this be CheckBox on Android < ICS because Switch doesn't exist -->
-	<Switch
+	<CheckBox
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="[Open Now] Force load from local cache"

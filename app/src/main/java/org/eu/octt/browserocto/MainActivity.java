@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
 		final EditText EditUrl = findViewById(R.id.EditUrl);
 		final Button BtnOpen = findViewById(R.id.BtnOpen);
 		final Button BtnShortcut = findViewById(R.id.BtnShortcut);
-		final Switch SwitchCache = findViewById(R.id.SwitchCache);
+		final CheckBox SwitchCache = findViewById(R.id.SwitchCache);
 		
 		BtnOpen.setOnClickListener(new OnClickListener() {
 			@Override

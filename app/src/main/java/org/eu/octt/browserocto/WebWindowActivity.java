@@ -10,64 +10,60 @@ import java.io.*;
 import java.net.*;
 
 public class WebWindowActivity extends Activity {
+	WebView Web0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.webwindow);
-		Bundle Extra = getIntent().getExtras();
+		final Bundle Extra = getIntent().getExtras();
 		LinearLayout LayMain = findViewById(R.id.LayMain);
 
-		WebView Web0 = findViewById(R.id.Web0);
-		//Web0.setWebViewClient(new WebViewClient());
-
+		/*final WebView */Web0 = findViewById(R.id.Web0);
+		final String WebCacheDir = "/data/data/" + getPackageName() + "/cache/WebCache/";
+		
 		Web0.setWebViewClient(new WebViewClient() {
 			// https://gist.github.com/kmerrell42/b4ff31733c562a3262ee9a42f5704a89
 			@Override
 			public WebResourceResponse shouldInterceptRequest(WebView v, String Url) {
 				return HandleRequest(Url);
-			}
+			};
 			@Override
 			public WebResourceResponse shouldInterceptRequest(WebView v, WebResourceRequest Req) {
 				return HandleRequest(Req.getUrl().toString());
-			}
+			};
+			// TODO: Save all HTTP headers too and return them somehow
 			private WebResourceResponse HandleRequest(String Url) {
-				//Thread thread = new Thread(new Runnable() {
-				//	@Override
-				//	public void run() {
 				try {
-					//URL url;
-					//HttpURLConnection Connection = null;
-					URL Url_ = new URL(Url);
-					HttpURLConnection Connection = (HttpURLConnection)Url_.openConnection();
-					String ContentType = Connection.getContentType();
-					String ContentEncoding = null;
+					final String UrlDir = WebCacheDir + Url + "_";
+					final File UrlFile = new File(UrlDir, "Content");
+					if (!UrlFile.exists() || !Extra.getBoolean("Cache")) {
+						final URL Url_ = new URL(Url);
+						final HttpURLConnection Connection = (HttpURLConnection)Url_.openConnection();
+						_Util.WriteStreamToFile(new BufferedInputStream(Connection.getInputStream()), UrlDir, "Content");
+						_Util.WriteStreamToFile(new ByteArrayInputStream(Connection.getContentType().getBytes()), UrlDir, "Content-Type");
+					};
+					String ContentType = _Util.StreamToString(new FileInputStream(new File(UrlDir, "Content-Type")));
+					final String ContentEncoding = null;
 					if (ContentType != null) {
-						ContentType = ContentType.split("\\;")[0];
-						ContentEncoding = ContentType.split("\\=")[1];
-					}
-					InputStream In = new BufferedInputStream(Connection.getInputStream());
-					return new WebResourceResponse(ContentType, ContentEncoding, In);
+						//ContentEncoding = ContentType.split("=")[1];
+						ContentType = ContentType.split(";")[0];
+					};
+					return new WebResourceResponse(ContentType, ContentEncoding, new FileInputStream(UrlFile));
 				} catch (Exception Ex) {
 					Log.e("browserocto/Log", "", Ex);
 				};
-				//	};//});
 				return null;
 			};
 		});
 
 		Web0.getSettings().setJavaScriptEnabled(true);
 		Web0.getSettings().setDomStorageEnabled(true);
-		Web0.getSettings().setCacheMode(WhichCacheMode(Extra.getBoolean("Cache")));
-
-		// This is apparently not working like I want (force caching of all site resources in spite of bad Cache-Control HTTP headers)
-		//webView.getSettings().setAppCacheMaxSize(1024*1024*8);
-		//webView.getSettings().setAppCachePath("/data/data/" + getPackageName() + "/cache");
-		//webView.getSettings().setAllowFileAccess(true);
-		//webView.getSettings().setAppCacheEnabled(true);
+		Web0.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//WhichCacheMode(Extra.getBoolean("Cache")));
 
 		Web0.loadUrl(Extra.getString("Url"));
 		_Util.ToastMsg(Extra.getString("Url"), this);
-
+		
 //		Thread thread = new Thread(new Runnable() {
 //			@Override
 //			public void run() {
@@ -97,10 +93,12 @@ public class WebWindowActivity extends Activity {
 //		thread.start();
 	};
 
-	public int WhichCacheMode(boolean Opt) {
-		if (Opt) {
-			return WebSettings.LOAD_CACHE_ELSE_NETWORK;
+	@Override
+	public void onBackPressed() {
+		if (Web0.canGoBack()) {
+			Web0.goBack();
+		} else {
+			super.onBackPressed();
 		};
-		return WebSettings.LOAD_NO_CACHE;
 	};
 };
