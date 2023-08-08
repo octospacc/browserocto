@@ -9,7 +9,8 @@ import android.util.*;
 import java.io.*;
 import java.net.*;
 
-public class WebWindowActivity extends Activity {
+public class WebWindowActivity extends Activity
+{
 	WebView Web0;
 	
 	@Override

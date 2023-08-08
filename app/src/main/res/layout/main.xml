@@ -47,4 +47,12 @@
 		android:checked="true"
 		android:id="@+id/SwitchCache"/>
 
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Open Experimental Mode"
+		android:padding="10dp"
+		android:id="@+id/BtnExperimental"/>
+
 </LinearLayout>
+

@@ -4,8 +4,12 @@ import android.app.*;
 import android.content.*;
 import android.widget.*;
 import java.io.*;
+import android.graphics.drawable.*;
+import android.util.*;
+import android.view.*;
 
-public class _Util extends Activity {
+public class _Util extends Activity
+{
 	public static boolean StartsWithOneOf(String Check, String[] With) {
 		for (int i=0; i<With.length; i++) {
 			if (Check.startsWith(With[i])) {
@@ -77,4 +81,43 @@ public class _Util extends Activity {
 			In.close();
 		}
 	};
+	
+	/*public static Drawable DrawableFromId(Integer Id, Context c){
+		TypedValue typedValue = new TypedValue();
+		c.getTheme().resolveAttribute(Id, typedValue, true);
+		//return typedValue.;
+	};*/
+	
+	public static TextView MakeTextView(Context c, String Text){
+		TextView Label = new TextView(c);
+		Label.setText(Text);
+		return Label;
+	};
+	
+	public static Button MakeButton(Context c, String Text){
+		Button Btn = new Button(c);
+		Btn.setText(Text);
+		return Btn;
+	};
+	
+	public static RadioButton MakeRadioButton(Context c, Boolean Checked, String Text){
+		RadioButton Radio = new RadioButton(c);
+		Radio.setText(Text);
+		if (Checked != null)
+			Radio.setChecked(Checked);
+		return Radio;
+	};
+	
+	public static CheckBox MakeCheckBox(Context c, Boolean Checked, String Text){
+		CheckBox Check = new CheckBox(c);
+		Check.setText(Text);
+		if (Checked != null)
+			Check.setChecked(Checked);
+		return Check;
+	};
+	
+	public static View AddLayoutChild(View Child, LinearLayout Parent) {
+		Parent.addView(Child);
+		return Child;
+	}
 };

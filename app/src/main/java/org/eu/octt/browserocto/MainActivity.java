@@ -10,7 +10,8 @@ import android.net.*;
 import android.content.pm.*;
 import android.graphics.drawable.*;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,6 +21,7 @@ public class MainActivity extends Activity {
 		final EditText EditUrl = findViewById(R.id.EditUrl);
 		final Button BtnOpen = findViewById(R.id.BtnOpen);
 		final Button BtnShortcut = findViewById(R.id.BtnShortcut);
+		final Button BtnExperimental = findViewById(R.id.BtnExperimental);
 		final CheckBox SwitchCache = findViewById(R.id.SwitchCache);
 		
 		BtnOpen.setOnClickListener(new OnClickListener() {
@@ -44,6 +46,13 @@ public class MainActivity extends Activity {
 					_Util.ToastMsg("URL is invalid!", getApplicationContext());
 				};
 			};
+		});
+		
+		BtnExperimental.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				startActivity(new Intent(getApplicationContext(), BrowserActivity.class));
+			}
 		});
 	};
 	

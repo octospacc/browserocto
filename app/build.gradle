@@ -8,8 +8,8 @@ android {
         applicationId "org.eu.octt.browserocto"
         minSdkVersion 1
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0.1"
+        versionCode 999
+        versionName "999.999.999"
     }
     buildTypes {
         release {
