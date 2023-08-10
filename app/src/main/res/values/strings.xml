@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">browserocto</string>
+	<string name="HintOmnibar">Search or enter URL...</string>
+	<string name="LabelBlockBadware">Block Badware</string>
+	<string name="LabelSuppressBanners">Suppress Cookie Banners</string>
+	<string name="LabelAllowJs">Allow JavaScript/WASM</string>
+	<string name="LabelAllowCss">Allow Styles</string>
+	<string name="LabelAllowStorage">Allow Site Storage</string>
+	<string name="LabelAutofill">Fields Autofill</string>
+	<string name="LabelForceCache">Force Offline Caching</string>
+	<string name="LabelSitetweaks">SiteTweaks</string>
+	<string name="LabelPolyfillHtml">Polyfill HTML</string>
+	<string name="LabelPolyfillJs">Polyfill/Downcompile JS</string>
+	<string name="LabelPolyfillCss">Polyfill CSS</string>
+	<!--<string name="LabelPolyfillList">Polyfill: </string>-->
+	<string name="LabelDevtools">DevTools</string>
+	<string name="LabelCustomJs">Custom JS</string>
+	<string name="LabelCustomCss">Custom CSS</string>
+	<string name="LabelCustomRedirects">Custom Redirects</string>
 </resources>

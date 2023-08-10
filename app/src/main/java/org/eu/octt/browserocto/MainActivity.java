@@ -54,6 +54,17 @@ public class MainActivity extends Activity
 				startActivity(new Intent(getApplicationContext(), BrowserActivity.class));
 			}
 		});
+		
+		findViewById(R.id.BtnUpdates).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				// download our updates csv
+				// for line in csv
+				// split Name;Uri;Version;LocalPath;Urls[;];
+				// check Version date > current version date of file
+				// if yes direct to URL / ask to download
+			}
+		});
 	};
 	
 	private Intent MakeIntBrowse(String Url, Boolean Cache) {

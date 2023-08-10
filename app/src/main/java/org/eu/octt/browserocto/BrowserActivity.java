@@ -11,6 +11,9 @@ import android.util.*;
 import java.util.*;
 import android.content.*;
 import android.text.*;
+import java.io.*;
+import android.widget.CompoundButton.*;
+import android.graphics.*;
 
 public class BrowserActivity extends Activity
 {
@@ -28,6 +31,9 @@ public class BrowserActivity extends Activity
 	public void SetCurSiteSettings(SiteSettings Settings){
 		CurSiteSettings = Settings;
 	}
+	
+	WebView Weber;
+	View LayNamespacedSettings;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -50,10 +56,15 @@ public class BrowserActivity extends Activity
 		EditOmnibar.setInputType(InputType.TYPE_CLASS_TEXT);
 		EditOmnibar.setMaxLines(1);
 		EditOmnibar.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1.0f));
+		EditOmnibar.setHint(R.string.HintOmnibar);
 		EditOmnibar.setText("https://example.com");
 		LayOmni.addView(EditOmnibar);
 		
-		final WebView Weber = new WebView(this);
+		final TriCheckBox Testbox = new TriCheckBox(this);
+		//Testbox.setBinary();
+		LayMain.addView(Testbox);
+		
+		/*final WebView*/ Weber = new WebView(this);
 		LayMain.addView(Weber);
 		
 		EditOmnibar.setOnKeyListener(new OnKeyListener() {
@@ -100,7 +111,7 @@ public class BrowserActivity extends Activity
 		DefSiteSettings.PolyfillCss = false;
 		DefSiteSettings.Devtools = false;
 		SiteSettingsCollection.put("Default", DefSiteSettings);
-		SetCurSiteSettings(GetDefSiteSettings());
+		CurSiteSettings = DefSiteSettings;
 		
 		/*final TextView ITest = new TextView(this);
 		ITest.setText("Test");
@@ -142,22 +153,38 @@ public class BrowserActivity extends Activity
 			};
 		});
 		
-		final CheckBox CheckOptBlockBadware = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.BlockBadware, "Block Badware"), LayOpt);
-		final CheckBox CheckOptSuppressBanners = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.SuppressBanners, "Suppress Cookie Banners"), LayOpt);
-		final CheckBox CheckOptAllowJs = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.AllowJs, "Allow JavaScript/WASM"), LayOpt);
-		final CheckBox CheckOptAllowCss = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.AllowCss, "Allow Styles"), LayOpt);
-		final CheckBox CheckOptAllowStorage = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.AllowStorage, "Allow Site Storage"), LayOpt);
-		final CheckBox CheckOptAutofill = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.Autofill, "Fields Autofill"), LayOpt);
-		final CheckBox CheckOptForceCache = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.ForceCache, "Force Offline Caching"), LayOpt);
-		final CheckBox CheckOptSitetweaks = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.Sitetweaks, "SiteTweaks"), LayOpt);
-		final CheckBox CheckOptPolyfillJs = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.PolyfillJs, "Polyfill JavaScript"), LayOpt);
-		final CheckBox CheckOptPolyfillCss = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.PolyfillCss, "Polyfill CSS"), LayOpt);
-		final CheckBox CheckOptDevtools = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.Devtools, "DevTools"), LayOpt);
-		final Button BtnOptCustomJs = (Button)_Util.AddLayoutChild(_Util.MakeButton(this, "Custom JavaScript"), LayOpt);
-		final Button BtnOptCustomCss = (Button)_Util.AddLayoutChild(_Util.MakeButton(this, "Custom CSS"), LayOpt);
-		final Button BtnOptCustomRedirects = (Button)_Util.AddLayoutChild(_Util.MakeButton(this, "Custom Redirects"), LayOpt);
+		/*View*/ LayNamespacedSettings = getLayoutInflater().inflate(R.layout.webnamespacesettings, null);
+		LayOpt.addView(LayNamespacedSettings);
+		//setContentView(R.layout.webnamespacesettings);
 		
-		//(CheckBox)LayOpt.findViewById("CheckDevtools").setText("Test");
+		//final GridLayout LayOptNamespaced = (GridLayout)_Util.AddLayoutChild(new GridLayout(this), LayOpt);
+		//LayOptNamespaced.setColumnCount(2);
+		
+		//final ToggleButton ToggleCheckOptBlockBadware = (ToggleButton)_Util.AddLayoutChild(_Util.MakeToggleButton(this, false, false), LayOptNamespaced);
+		//final CheckBox CheckOptBlockBadware = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.BlockBadware, "Block Badware"), LayOptNamespaced);
+		//final CheckBox CheckOptSuppressBanners = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.SuppressBanners, "Suppress Cookie Banners"), LayOpt);
+		//final CheckBox CheckOptAllowJs = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.AllowJs, "Allow JavaScript/WASM"), LayOpt);
+		//final CheckBox CheckOptAllowCss = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.AllowCss, "Allow Styles"), LayOpt);
+		//final CheckBox CheckOptAllowStorage = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.AllowStorage, "Allow Site Storage"), LayOpt);
+		//final CheckBox CheckOptAutofill = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.Autofill, "Fields Autofill"), LayOpt);
+		//////final CheckBox CheckOptForceCache = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.ForceCache, "Force Offline Caching"), LayOpt);
+		//final CheckBox CheckOptSitetweaks = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.Sitetweaks, "SiteTweaks"), LayOpt);
+		//final CheckBox CheckOptPolyfillJs = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.PolyfillJs, "Polyfill JavaScript"), LayOpt);
+		//final CheckBox CheckOptPolyfillCss = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.PolyfillCss, "Polyfill CSS"), LayOpt);
+		//final CheckBox CheckOptDevtools = (CheckBox)_Util.AddLayoutChild(_Util.MakeCheckBox(this, DefSiteSettings.Devtools, "DevTools"), LayOpt);
+		//final Button BtnOptCustomJs = (Button)_Util.AddLayoutChild(_Util.MakeButton(this, "Custom JavaScript"), LayOpt);
+		//final Button BtnOptCustomCss = (Button)_Util.AddLayoutChild(_Util.MakeButton(this, "Custom CSS"), LayOpt);
+		//final Button BtnOptCustomRedirects = (Button)_Util.AddLayoutChild(_Util.MakeButton(this, "Custom Redirects"), LayOpt);
+		
+		UpdateNamespacedOpts();
+		_Util.Cast(LayNamespacedSettings.findViewById(R.id.CheckOptDevtools), CheckBox.class).setOnCheckedChangeListener(new OnCheckedChangeListener(){
+			@Override
+			public void onCheckedChanged(CompoundButton Check, boolean Checked){
+				if (Checked) {
+					
+				}
+			}
+		});
 		
 		final PopupWindow PopOpt = new PopupWindow(this);
 		PopOpt.setContentView(_LayOpt);
@@ -216,9 +243,72 @@ public class BrowserActivity extends Activity
 			};
 		});
 		
+		ApplyWebSettings();
+		
+		Weber.setWebViewClient(new WebViewClient() {
+			@Override
+			public void onPageStarted(WebView Web, String Url, Bitmap Icon){
+				if (Url.toLowerCase().startsWith("browserocto://")) {
+					Web.addJavascriptInterface(this, "browseroctoJsi");
+					//
+				} else
+					Web.removeJavascriptInterface("browseroctoJsi");
+			}
+			
+			@Override
+			public void onPageFinished(WebView Web, String Url){
+				if (!CurSiteSettings.AllowCss)
+					WebInhibitStyles();
+				Web.evaluateJavascript("alert(1);document.body.innerHTML+='TESTING'", null);
+			}
+		});
+		
 		Weber.loadUrl(EditOmnibar.getText().toString());
-		//Weber.getSettings().setJavaScriptEnabled(CurSiteSettings.AllowJs);
 	};
+	
+	private void UpdateNamespacedOpts(){
+		_Util.Cast(LayNamespacedSettings.findViewById(R.id.CheckOptBlockBadware), CheckBox.class).setChecked(CurSiteSettings.BlockBadware);
+		_Util.Cast(LayNamespacedSettings.findViewById(R.id.CheckOptSuppressBanners), CheckBox.class).setChecked(CurSiteSettings.SuppressBanners);
+		_Util.Cast(LayNamespacedSettings.findViewById(R.id.CheckOptAllowJs), CheckBox.class).setChecked(CurSiteSettings.AllowJs);
+		_Util.Cast(LayNamespacedSettings.findViewById(R.id.CheckOptAllowCss), CheckBox.class).setChecked(CurSiteSettings.AllowCss);
+		_Util.Cast(LayNamespacedSettings.findViewById(R.id.CheckOptDevtools), CheckBox.class).setChecked(CurSiteSettings.Devtools);
+	}
+		
+	private void ApplyWebSettings(){
+		Weber.getSettings().setJavaScriptEnabled(CurSiteSettings.AllowJs);
+		if (CurSiteSettings.AllowCss)
+			WebRestoreStyles();
+		else
+			WebInhibitStyles();
+		Weber.getSettings().setDomStorageEnabled(CurSiteSettings.AllowStorage);
+	}
+	
+	private void WebInhibitStyles(){
+		Weber.evaluateJavascript(_Util.OpenRawResourceString(getResources(), R.raw.webinhibitstyles), null);
+	}
+	
+	private void WebRestoreStyles(){
+		Weber.evaluateJavascript(_Util.OpenRawResourceString(getResources(), R.raw.webinhibitstyles), null);
+	}
+	
+	private void WebLoadDevtools(){
+		File Injectable = new File("/data/data/" + getPackageName() + "/files/", "eruda.js");
+		if (!Injectable.exists()) {
+			AskDownloadRequirement(Injectable.getPath(), new String[]{"https://example.com/eruda.js"});
+		}
+		if (Injectable.exists()) {
+			try {
+			Weber.evaluateJavascript(_Util.StreamToString(new FileInputStream(Injectable)), null);
+			} catch(Exception Ex){
+				
+			}
+		}
+	}
+	
+	@JavascriptInterface
+	private void AskDownloadRequirement(String Path, String Urls[]){
+		//popup download request
+	}
 	
 	/*
 	@Override

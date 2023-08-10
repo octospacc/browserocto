@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "org.eu.octt.browserocto"
         minSdkVersion 1
-        targetSdkVersion 30
+        targetSdkVersion 28
         versionCode 999
         versionName "999.999.999"
     }

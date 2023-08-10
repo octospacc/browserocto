@@ -7,6 +7,7 @@ import java.io.*;
 import android.graphics.drawable.*;
 import android.util.*;
 import android.view.*;
+import android.content.res.*;
 
 public class _Util extends Activity
 {
@@ -60,6 +61,18 @@ public class _Util extends Activity
 		return "";
 	};
 	
+	public static String TryStreamToString(InputStream In){
+		try {
+			return StreamToString(In);
+		} catch (IOException Ex) {
+			return null;
+		}
+	}
+	
+	public static String OpenRawResourceString(Resources Res, int Id){
+		return TryStreamToString(Res.openRawResource(Id));
+	}
+	
 	// https://stackoverflow.com/a/10857407
 	public static void WriteStreamToFile(InputStream In, String Path, String Name) throws IOException {
 		try {
@@ -100,6 +113,15 @@ public class _Util extends Activity
 		return Btn;
 	};
 	
+	public static ToggleButton MakeToggleButton(Context c, Boolean Checked, Boolean Enabled){
+		ToggleButton Toggle = new ToggleButton(c);
+		if (Checked != null)
+			Toggle.setChecked(Checked);
+		if (Enabled != null)
+			Toggle.setEnabled(Enabled);
+		return Toggle;
+	};
+	
 	public static RadioButton MakeRadioButton(Context c, Boolean Checked, String Text){
 		RadioButton Radio = new RadioButton(c);
 		Radio.setText(Text);
@@ -116,8 +138,27 @@ public class _Util extends Activity
 		return Check;
 	};
 	
-	public static View AddLayoutChild(View Child, LinearLayout Parent) {
-		Parent.addView(Child);
+	public static View AddLayoutChild(View Child, View Parent){
+		if (Parent.getClass() == LinearLayout.class || Parent.getClass() == RadioGroup.class) {
+			LinearLayout _Parent = (LinearLayout)Parent;
+			_Parent.addView(Child);
+		};
+		if (Parent.getClass() == GridLayout.class) {
+			GridLayout _Parent = (GridLayout)Parent;
+			_Parent.addView(Child);
+		};
+		//_Parent.addView(Child);
+	//public static View AddLayoutChild(View Child, LinearLayout Parent){
+	//	Parent.addView(Child);
 		return Child;
-	}
+	};
+	
+	// <https://stackoverflow.com/a/14524815>
+	public static <T> T Cast(Object o, Class<T> clazz) {
+		try {
+			return clazz.cast(o);
+		} catch(ClassCastException e) {
+			return null;
+		}
+	};
 };
